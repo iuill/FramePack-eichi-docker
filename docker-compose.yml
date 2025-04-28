@@ -1,0 +1,16 @@
+services:
+  framepack_eichi:
+    build: .
+    ports:
+      - "8001:8001"
+    volumes:
+      - ./hf_download:/app/FramePack/webui/hf_download
+      - ./outputs:/app/FramePack/webui/outputs
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - count: all
+              capabilities: [gpu]
+    working_dir: /app/FramePack
+    command: ["sh", "-c", "PYTHONPATH=. python webui/endframe_ichi.py --server 0.0.0.0"]
