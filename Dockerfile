@@ -27,11 +27,13 @@ RUN git clone https://github.com/lllyasviel/FramePack /app/FramePack && \
 WORKDIR /app
 RUN git clone https://github.com/git-ai-code/FramePack-eichi /app/FramePack-eichi && \
     cd /app/FramePack-eichi && \
-    git checkout 13e185ad09100df7bf99846d361b3944ec676b78
+    git checkout 6fd4394d55880af4e8a5828e755a4caa6f9827fa
 
 RUN mkdir -p /app/FramePack/webui
 RUN cp /app/FramePack-eichi/webui/endframe_ichi.py /app/FramePack/webui/ && \
     cp -r /app/FramePack-eichi/webui/eichi_utils/ /app/FramePack/webui/ && \
-    cp -r /app/FramePack-eichi/webui/lora_utils/ /app/FramePack/webui/
+    cp -r /app/FramePack-eichi/webui/lora_utils/ /app/FramePack/webui/ && \
+    cp -r /app/FramePack-eichi/webui/diffusers_helper/ /app/FramePack/webui/ && \
+    cp -r /app/FramePack-eichi/webui/locales/ /app/FramePack/webui/
 
 #CMD ["python", "demo_gradio.py", "--share", "--server-name", "0.0.0.0"]
