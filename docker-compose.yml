@@ -1,8 +1,28 @@
 services:
-  framepack_eichi:
-    build: .
+  framepack_lllyasviel:
+    build:
+      context: .
+      target: lllyasviel
     ports:
-      - "8001:8001"
+      - "8011:7860"
+    volumes:
+      - ./hf_download:/app/FramePack/hf_download
+      - ./outputs:/app/FramePack/outputs
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - count: all
+              capabilities: [gpu]
+    working_dir: /app/FramePack
+    command: ["python", "/app/FramePack/demo_gradio.py", "--port", "7860", "--server", "0.0.0.0"]
+
+  framepack_eichi:
+    build:
+      context: .
+      target: eichi
+    ports:
+      - "8012:8001"
     volumes:
       - ./hf_download:/app/FramePack/webui/hf_download
       - ./outputs:/app/FramePack/webui/outputs
@@ -13,4 +33,4 @@ services:
             - count: all
               capabilities: [gpu]
     working_dir: /app/FramePack
-    command: ["sh", "-c", "PYTHONPATH=. python webui/endframe_ichi.py --server 0.0.0.0"]
+    command: ["sh", "-c", "PYTHONPATH=/app/FramePack python /app/FramePack/webui/endframe_ichi.py --port 8001 --server 0.0.0.0"]
